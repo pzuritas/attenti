@@ -1,12 +1,12 @@
-#include <WiFiNINA.h>
+#include <WiFi.h>
 
 String voltmeter_pin = 'A0';
 String temperature_pin = 'A7';
 int offset = 110; //correction value, may be changed
 float temp_offset = -54.89;
 
-char ssid[] = "test";
-char pass[] = "";
+char* ssid = "test";
+char* pass = "";
 
 int status = WL_IDLE_STATUS;
 
@@ -21,22 +21,25 @@ WiFiClient client;
 
 void setup()
 {
-  Serial.begin(9600);
+ 
+    Serial.begin(9600);
 
-  while (status != WL_CONNECTED)
-  {
-    Serial.print("Attempting to connect to network named: ");
-    Serial.println(ssid);
-    status = WiFi.begin(ssid, pass);
-    delay(10000);
-  }
+    WiFi.begin(ssid, password);
 
-  Serial.print("SSID: ");
-  Serial.println(WiFi.SSID());
-  IPAddress ip = WiFi.localIP();
-  IPAddress gateway = WiFi.gatewayIP();
-  Serial.print("IP Address: ");
-  Serial.println(ip);
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(500);
+        Serial.println("Connecting to WiFi..");
+    }
+
+    Serial.println("Connected to the WiFi network");
+
+    Serial.print("SSID: ");
+    Serial.println(WiFi.SSID());
+    IPAddress ip = WiFi.localIP();
+    IPAddress gateway = WiFi.gatewayIP();
+    Serial.print("IP Address: ");
+    Serial.println(ip);
 }
 
 void loop()
