@@ -1,4 +1,5 @@
 import serial
+import csv
 import time as tm
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -50,8 +51,8 @@ class DataReceiver():
                 self.session_data[time] = Datapoint(time, voltage, temperature)
                 tm.sleep(self.period)
 
-    def save_capture(self):
-        '''Saves data on last session.'''
+    def add_capture(self):
+        '''Stores data from last session on active history.'''
         voltage = list(map(lambda dp: dp.voltage, self.session_data.values()))
         temp = list(map(lambda dp: dp.temperature, self.session_data.values()))
         time = self.session_data.keys()
@@ -59,8 +60,24 @@ class DataReceiver():
         temp_series = zip(time, temp)
         self.all_data.append(SessionData(volt_series, temp_series))
 
-    def plot_session(self, filename, i=0, show=False):
-        '''Plots the i-th session'''
+    def save_capture(self, i=-1):
+        '''Saves data session. Defaults to last.'''
+        data = self.all_data[i]
+        if i == -1:
+            j = len(self.all_data)
+        else:
+            j = i
+        with open(f'sessions/session_{j}/voltage.csv', 'w') as output:
+                writer = csv.writer(output, lineterminator='\n')
+                for line in data['voltage']:
+                    writer.writerow(line)
+        with open(f'sessions/session_{j}/temperature.csv', 'w') as output:
+            writer = csv.writer(output, lineterminator='\n')
+            for line in data['temperature']:
+                writer.writerow(line)
+
+    def plot_session(self, filename, i=-1, show=False):
+        '''Plots the i-th session. Defaults to last.'''
         plt.figure()
         plt.title(f'session {i}')
         plt.subplot(1, 2, 1)
@@ -75,8 +92,8 @@ class DataReceiver():
             plt.show()
         plt.savefig(f'figures/{filename}.png')
 
-    def plot_volt(self, filename, i=0, show=False):
-        '''Plots the i-th voltage series'''
+    def plot_volt(self, filename, i=-1, show=False):
+        '''Plots the i-th voltage series. Defaults to last.'''
         plt.figure()
         plt.title(f'voltage series for session {i}')
         plt.xlabel('time [s]')
@@ -86,8 +103,8 @@ class DataReceiver():
             plt.show()
         plt.savefig(f'figures/{filename}.png')
 
-    def plot_temp(self, filename, i=0, show=False):
-        '''Plots the i-th temperature series'''
+    def plot_temp(self, filename, i=-1, show=False):
+        '''Plots the i-th temperature series. Defaults to last.'''
         plt.figure()
         plt.title(f'voltage series for session {i}')
         plt.xlabel('time [s]')
