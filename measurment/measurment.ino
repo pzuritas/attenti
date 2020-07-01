@@ -1,6 +1,6 @@
 
-char voltmeter_pin = 'A0';
-int temperature_pin = 'A7';
+int voltmeter_pin = 0;
+int temperature_pin = 7;
 int offset = 110; //correction value, may be changed
 float temp_offset = -54.89;
 
