@@ -3,9 +3,10 @@ import csv
 import time as tm
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import platform
 mpl.style.use('ggplot')
 from collections import namedtuple
-from pc_parameters import PORT, BAUDRATE, TIMEOUT, PERIOD
+from pc_parameters import PORT, BAUDRATE, TIMEOUT, PERIOD, MACPORT
 
 
 # Define a simple data structure for datapoints.
@@ -15,7 +16,12 @@ SessionData = namedtuple('session', ['voltage', 'temperature'])
 class DataReceiver():
     '''Wrapper class for data receiving through serial port.'''
     def __init__(self):
-        self.port = PORT
+        if platform.system() == 'Windows':
+            self.port = PORT
+        elif platform.system() == 'Darwin':
+            self.port = MACPORT
+        else:
+            raise NotImplementedError('No suitable OS (Win/Mac) found.')
         self.baudrate = BAUDRATE
         self.timeout = TIMEOUT
         self.period = PERIOD
