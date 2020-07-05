@@ -1,6 +1,7 @@
 import socket
+import time as tm
 from collections import defaultdict, namedtuple
-from data_recv_wired import DataReceiver
+from data_recv_wired import DataReceiver, Datapoint
 
 
 UDPReceived = namedtuple('data', ['host', 'port', 'data'])
