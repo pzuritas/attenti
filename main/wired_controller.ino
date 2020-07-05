@@ -5,8 +5,8 @@
 // PARAMETERS: CHANGE ACCORDING TO TEST
 int voltmeter_pin = 0; // Voltage/CSR pin, parameter
 int temperature_pin = 7; // Thermistor pin
-int offset = 110; // Voltage offest, test first to benchmark
-float temp_offset = -54.89; // Temperature offset, test first to benchmark
+int offset = 750; // Voltage offest, test first to benchmark
+float temp_offset = 47.425; // Temperature offset, test first to benchmark
 int serial_port = 9600; // Serial port to access in PC
 int period = 833; // Period for data capture in ms. If f is samples per minute, 
                   // then period must be (f / 60000)^(-1).
