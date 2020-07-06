@@ -78,11 +78,11 @@ class DataReceiver():
             os.makedirs(f'./sessions/session_{j}')
         with open(f'./sessions/session_{j}/voltage.csv', 'w') as output:
                 writer = csv.writer(output, lineterminator='\n')
-                for line in data['voltage']:
+                for line in data.voltage:
                     writer.writerow(line)
         with open(f'./sessions/session_{j}/temperature.csv', 'w') as output:
             writer = csv.writer(output, lineterminator='\n')
-            for line in data['temperature']:
+            for line in data.temperature:
                 writer.writerow(line)
 
     def plot_session(self, filename, i=-1, show=False):
@@ -92,11 +92,11 @@ class DataReceiver():
         plt.subplot(1, 2, 1)
         plt.xlabel('time [s]')
         plt.ylabel('voltage [mV]')
-        plt.plot(self.all_data[i]['voltage'])
+        plt.plot(self.all_data[i].voltage)
         plt.subplot(1, 2, 2)
         plt.xlabel('time [s]')
         plt.ylabel('temperature [K]')
-        plt.plot(self.all_data[i]['temperature'])
+        plt.plot(self.all_data[i].temperature)
         if show:
             plt.show()
         plt.savefig(f'figures/{filename}.png')
@@ -107,7 +107,7 @@ class DataReceiver():
         plt.title(f'voltage series for session {i}')
         plt.xlabel('time [s]')
         plt.ylabel('voltage [mV]')
-        plt.plot(self.all_data[i]['voltage'])
+        plt.plot(self.all_data[i].voltage)
         if show:
             plt.show()
         plt.savefig(f'figures/{filename}.png')
@@ -118,7 +118,7 @@ class DataReceiver():
         plt.title(f'voltage series for session {i}')
         plt.xlabel('time [s]')
         plt.ylabel('temperature [K]')
-        plt.plot(self.all_data[i]['temperature'])
+        plt.plot(self.all_data[i].temperature)
         if show:
             plt.show()
         plt.savefig(f'figures/{filename}.png')
