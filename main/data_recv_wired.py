@@ -1,5 +1,6 @@
 import serial
 import csv
+import os
 import time as tm
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -73,6 +74,8 @@ class DataReceiver():
             j = len(self.all_data)
         else:
             j = i
+        if not os.path.exists('./sessions/session_{j}'):
+            os.makedirs('./sessions/session_{j}')
         with open(f'./sessions/session_{j}/voltage.csv', 'w') as output:
                 writer = csv.writer(output, lineterminator='\n')
                 for line in data['voltage']:
