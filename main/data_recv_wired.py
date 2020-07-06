@@ -92,11 +92,11 @@ class DataReceiver():
         plt.subplot(1, 2, 1)
         plt.xlabel('time [s]')
         plt.ylabel('voltage [mV]')
-        plt.plot(self.all_data[i].voltage)
+        plt.plot(list(self.all_data[i].voltage))
         plt.subplot(1, 2, 2)
         plt.xlabel('time [s]')
         plt.ylabel('temperature [K]')
-        plt.plot(self.all_data[i].temperature)
+        plt.plot(list(self.all_data[i].temperature))
         if show:
             plt.show()
         plt.savefig(f'figures/{filename}.png')
@@ -107,7 +107,7 @@ class DataReceiver():
         plt.title(f'voltage series for session {i}')
         plt.xlabel('time [s]')
         plt.ylabel('voltage [mV]')
-        plt.plot(self.all_data[i].voltage)
+        plt.plot(list(self.all_data[i].voltage))
         if show:
             plt.show()
         plt.savefig(f'figures/{filename}.png')
@@ -118,7 +118,7 @@ class DataReceiver():
         plt.title(f'voltage series for session {i}')
         plt.xlabel('time [s]')
         plt.ylabel('temperature [K]')
-        plt.plot(self.all_data[i].temperature)
+        plt.plot(list(self.all_data[i].temperature))
         if show:
             plt.show()
         plt.savefig(f'figures/{filename}.png')
