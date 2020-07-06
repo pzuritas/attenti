@@ -73,11 +73,11 @@ class DataReceiver():
             j = len(self.all_data)
         else:
             j = i
-        with open(f'sessions/session_{j}/voltage.csv', 'w') as output:
+        with open(f'./sessions/session_{j}/voltage.csv', 'w') as output:
                 writer = csv.writer(output, lineterminator='\n')
                 for line in data['voltage']:
                     writer.writerow(line)
-        with open(f'sessions/session_{j}/temperature.csv', 'w') as output:
+        with open(f'./sessions/session_{j}/temperature.csv', 'w') as output:
             writer = csv.writer(output, lineterminator='\n')
             for line in data['temperature']:
                 writer.writerow(line)
