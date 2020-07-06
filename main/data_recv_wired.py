@@ -69,34 +69,42 @@ class DataReceiver():
 
     def save_capture(self, i=-1):
         '''Saves data session. Defaults to last.'''
-        data = self.all_data[i]
         if i == -1:
-            j = len(self.all_data)
+            j = len(self.all_data)-1
         else:
             j = i
+        volt = list(self.all_data[j].voltage).copy()
+        temp = list(self.all_data[j].temperature).copy()
         if not os.path.exists(f'./sessions/session_{j}'):
             os.makedirs(f'./sessions/session_{j}')
         with open(f'./sessions/session_{j}/voltage.csv', 'w') as output:
                 writer = csv.writer(output, lineterminator='\n')
-                for line in data.voltage:
+                for line in volt:
                     writer.writerow(line)
         with open(f'./sessions/session_{j}/temperature.csv', 'w') as output:
             writer = csv.writer(output, lineterminator='\n')
-            for line in data.temperature:
+            for line in temp:
                 writer.writerow(line)
 
     def plot_session(self, filename, i=-1, show=False):
         '''Plots the i-th session. Defaults to last.'''
+        if i == -1:
+            j = len(self.all_data)-1
+        else:
+            j = i
+        volt = list(self.all_data[j].voltage).copy()
+        temp = list(self.all_data[j].temperature).copy()
         plt.figure()
         plt.title(f'session {i}')
         plt.subplot(1, 2, 1)
         plt.xlabel('time [s]')
         plt.ylabel('voltage [mV]')
-        plt.plot(list(self.all_data[i].voltage))
+        plt.plot(volt)
         plt.subplot(1, 2, 2)
         plt.xlabel('time [s]')
         plt.ylabel('temperature [K]')
-        plt.plot(list(self.all_data[i].temperature))
+        plt.plot(temp)
+        plt.tight_layout()
         if show:
             plt.show()
         if not os.path.exists(f'./figures/'):
@@ -105,11 +113,16 @@ class DataReceiver():
 
     def plot_volt(self, filename, i=-1, show=False):
         '''Plots the i-th voltage series. Defaults to last.'''
+        if i == -1:
+            j = len(self.all_data)-1
+        else:
+            j = i
+        volt = list(self.all_data[j].voltage).copy()
         plt.figure()
         plt.title(f'voltage series for session {i}')
         plt.xlabel('time [s]')
         plt.ylabel('voltage [mV]')
-        plt.plot(list(self.all_data[i].voltage))
+        plt.plot(volt)
         if show:
             plt.show()
         if not os.path.exists(f'./figures/'):
@@ -118,14 +131,29 @@ class DataReceiver():
 
     def plot_temp(self, filename, i=-1, show=False):
         '''Plots the i-th temperature series. Defaults to last.'''
+        if i == -1:
+            j = len(self.all_data)-1
+        else:
+            j = i
+        temp = list(self.all_data[j].temperature).copy()
         plt.figure()
         plt.title(f'voltage series for session {i}')
         plt.xlabel('time [s]')
         plt.ylabel('temperature [K]')
-        plt.plot(list(self.all_data[i].temperature))
+        plt.plot(temp)
         if show:
             plt.show()
         if not os.path.exists(f'./figures/'):
             os.makedirs(f'./figures/')
         plt.savefig(f'figures/{filename}.png')
 
+if __name__ == '__main__':
+    time = [i for i in range(10)]
+    print(f'time = {time}')
+    volt = [i**2 for i in range(10)]
+    print(f'volt = {volt}')
+    recv = DataReceiver()
+    for i in range(len(time)):
+        recv.session_data[time[i]] = Datapoint(time[i], volt[i], volt[i])
+    recv.add_capture()
+    recv.plot_session('test', show=True)
