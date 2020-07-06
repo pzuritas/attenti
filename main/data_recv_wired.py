@@ -99,6 +99,8 @@ class DataReceiver():
         plt.plot(list(self.all_data[i].temperature))
         if show:
             plt.show()
+        if not os.path.exists(f'./figures/'):
+            os.makedirs(f'./figures/')
         plt.savefig(f'figures/{filename}.png')
 
     def plot_volt(self, filename, i=-1, show=False):
@@ -110,6 +112,8 @@ class DataReceiver():
         plt.plot(list(self.all_data[i].voltage))
         if show:
             plt.show()
+        if not os.path.exists(f'./figures/'):
+            os.makedirs(f'./figures/')
         plt.savefig(f'figures/{filename}.png')
 
     def plot_temp(self, filename, i=-1, show=False):
@@ -121,5 +125,7 @@ class DataReceiver():
         plt.plot(list(self.all_data[i].temperature))
         if show:
             plt.show()
+        if not os.path.exists(f'./figures/'):
+            os.makedirs(f'./figures/')
         plt.savefig(f'figures/{filename}.png')
 
