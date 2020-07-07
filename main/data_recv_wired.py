@@ -73,8 +73,8 @@ class DataReceiver():
             j = len(self.all_data)-1
         else:
             j = i
-        volt = list(self.all_data[j].voltage).copy()
-        temp = list(self.all_data[j].temperature).copy()
+        volt = list(self.all_data[j].voltage).deepcopy()
+        temp = list(self.all_data[j].temperature).deepcopy()
         if not os.path.exists(f'./sessions/session_{j}'):
             os.makedirs(f'./sessions/session_{j}')
         with open(f'./sessions/session_{j}/voltage.csv', 'w') as output:
@@ -99,11 +99,12 @@ class DataReceiver():
         plt.subplot(1, 2, 1)
         plt.xlabel('time [s]')
         plt.ylabel('voltage [mV]')
-        plt.plot(volt)
+        plt.plot(volt, label='voltage')
         plt.subplot(1, 2, 2)
         plt.xlabel('time [s]')
         plt.ylabel('temperature [K]')
-        plt.plot(temp)
+        plt.plot(temp, label='temperature')
+        plt.legend()
         plt.tight_layout()
         if show:
             plt.show()
