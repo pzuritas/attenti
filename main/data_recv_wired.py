@@ -3,12 +3,13 @@ import csv
 import os
 import time as tm
 import copy
+import scipy.signal as sp
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import platform
 mpl.style.use('ggplot')
 from collections import namedtuple
-from pc_parameters import PORT, BAUDRATE, TIMEOUT, PERIOD, MACPORT
+from pc_parameters import PORT, BAUDRATE, TIMEOUT, PERIOD, MACPORT, FREQ
 
 
 # Define a simple data structure for datapoints.
@@ -59,14 +60,32 @@ class DataReceiver():
                 self.session_data[time] = Datapoint(time, voltage, temperature)
                 tm.sleep(self.period)
 
-    def add_capture(self):
+    def add_capture(self, filter=False):
         '''Stores data from last session on active history.'''
-        voltage = list(map(lambda dp: dp.voltage, self.session_data.values()))
-        temp = list(map(lambda dp: dp.temperature, self.session_data.values()))
-        time = self.session_data.keys()
-        volt_series = zip(time, voltage)
-        temp_series = zip(time, temp)
-        self.all_data.append(SessionData(volt_series, temp_series))
+        if not filter:
+            voltage = list(
+                map(lambda dp: dp.voltage, self.session_data.values())
+                )
+            temp = list(
+                map(lambda dp: dp.temperature, self.session_data.values())
+                )
+            time = self.session_data.keys()
+            volt_series = zip(time, voltage)
+            temp_series = zip(time, temp)
+            self.all_data.append(SessionData(volt_series, temp_series))
+        else:
+            voltage = list(
+                map(lambda dp: dp.voltage, self.session_data.values())
+                )
+            filt = sp.butter(1, FREQ)
+            voltage = sp.lfilter(*filt, voltage)
+            temp = list(
+                map(lambda dp: dp.temperature, self.session_data.values())
+                )
+            time = self.session_data.keys()
+            volt_series = zip(time, voltage)
+            temp_series = zip(time, temp)
+            self.all_data.append(SessionData(volt_series, temp_series))
 
     def save_capture(self, i=-1):
         '''Saves data session. Defaults to last.'''
@@ -166,6 +185,6 @@ if __name__ == '__main__':
     recv = DataReceiver()
     for i in range(len(time)):
         recv.session_data[time[i]] = Datapoint(time[i], volt[i], volt[i])
-    recv.add_capture()
+    recv.add_capture(filter=True)
     recv.save_capture()
     recv.plot_session('test', show=True)
