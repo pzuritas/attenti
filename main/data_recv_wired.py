@@ -2,6 +2,7 @@ import serial
 import csv
 import os
 import time as tm
+import copy
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import platform
@@ -73,8 +74,8 @@ class DataReceiver():
             j = len(self.all_data)-1
         else:
             j = i
-        volt = list(self.all_data[j].voltage).deepcopy()
-        temp = list(self.all_data[j].temperature).deepcopy()
+        volt = list(copy.deepcopy(self.all_data[j].voltage))
+        temp = list(copy.deepcopy(self.all_data[j].temperature))
         if not os.path.exists(f'./sessions/session_{j}'):
             os.makedirs(f'./sessions/session_{j}')
         with open(f'./sessions/session_{j}/voltage.csv', 'w') as output:
@@ -92,18 +93,23 @@ class DataReceiver():
             j = len(self.all_data)-1
         else:
             j = i
-        volt = list(self.all_data[j].voltage).copy()
-        temp = list(self.all_data[j].temperature).copy()
+        volt = list(self.all_data[j].voltage)
+        temp = list(self.all_data[j].temperature)
+        vtime = [dp[0] for dp in volt]
+        ttime = [dp[0] for dp in temp]
+        v = [dp[1] for dp in volt]
+        t = [dp[1] for dp in temp]
         plt.figure()
         plt.title(f'session {i}')
         plt.subplot(1, 2, 1)
         plt.xlabel('time [s]')
         plt.ylabel('voltage [mV]')
-        plt.plot(volt, label='voltage')
+        plt.plot(vtime, v, label='voltage')
+        plt.legend()
         plt.subplot(1, 2, 2)
         plt.xlabel('time [s]')
         plt.ylabel('temperature [K]')
-        plt.plot(temp, label='temperature')
+        plt.plot(ttime, t, label='temperature')
         plt.legend()
         plt.tight_layout()
         if show:
@@ -118,12 +124,14 @@ class DataReceiver():
             j = len(self.all_data)-1
         else:
             j = i
-        volt = list(self.all_data[j].voltage).copy()
+        volt = list(self.all_data[j].voltage)
+        vtime = [dp[0] for dp in volt]
+        v = [dp[1] for dp in volt]
         plt.figure()
         plt.title(f'voltage series for session {i}')
         plt.xlabel('time [s]')
         plt.ylabel('voltage [mV]')
-        plt.plot(volt)
+        plt.plot(vtime, v)
         if show:
             plt.show()
         if not os.path.exists(f'./figures/'):
@@ -136,12 +144,14 @@ class DataReceiver():
             j = len(self.all_data)-1
         else:
             j = i
-        temp = list(self.all_data[j].temperature).copy()
+        temp = list(self.all_data[j].temperature)
+        ttime = [dp[0] for dp in temp]
+        t = [dp[1] for dp in temp]
         plt.figure()
         plt.title(f'voltage series for session {i}')
         plt.xlabel('time [s]')
         plt.ylabel('temperature [K]')
-        plt.plot(temp)
+        plt.plot(ttime, t)
         if show:
             plt.show()
         if not os.path.exists(f'./figures/'):
@@ -157,4 +167,5 @@ if __name__ == '__main__':
     for i in range(len(time)):
         recv.session_data[time[i]] = Datapoint(time[i], volt[i], volt[i])
     recv.add_capture()
+    recv.save_capture()
     recv.plot_session('test', show=True)
