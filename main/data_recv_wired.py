@@ -107,7 +107,7 @@ class DataReceiver():
             for line in temp:
                 writer.writerow(line)
 
-    def plot_session(self, filename, i=-1, show=False, times=None):
+    def plot_session(self, filename, i=-1, show=False, times=[]):
         '''Plots the i-th session. Defaults to last.'''
         if i == -1:
             j = len(self.all_data)-1
@@ -125,17 +125,17 @@ class DataReceiver():
         plt.xlabel('time [s]')
         plt.ylabel('voltage [mV]')
         plt.plot(vtime, v, label='voltage')
-        if times:
+        if len(times) != 0:
             for time in times:
-                plt.axvline(time, ymin=np.min(v), ymax=np.max(v))
+                plt.axvline(time, ymin=np.min(v), ymax=np.max(v), label='stim')
         plt.legend()
         plt.subplot(1, 2, 2)
         plt.xlabel('time [s]')
         plt.ylabel('temperature [K]')
         plt.plot(ttime, t, label='temperature')
-        if times:
+        if len(times) != 0:
             for time in times:
-                plt.axvline(time, ymin=np.min(t), ymax=np.max(t))
+                plt.axvline(time, ymin=np.min(t), ymax=np.max(t), label='stim')
         plt.legend()
         plt.tight_layout()
         if show:
