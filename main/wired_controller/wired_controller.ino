@@ -7,7 +7,7 @@ int gsr_average=0;
 // PARAMETERS: CHANGE ACCORDING TO TEST
 //int voltmeter_pin = 0; // Voltage/CSR pin, parameter
 int ThermistorPin = 7; // Thermistor pin
-int offset = 750; // Voltage offest, test first to benchmark
+//int offset = 750; // Voltage offest, test first to benchmark
 float temp_offset = 47.425; // Temperature offset, test first to benchmark
 int serial_port = 9600; // Serial port to access in PC
 int period = 833; // Period for data capture in ms. If f is samples per minute, 
@@ -29,17 +29,25 @@ void loop()
 {
     //float voltage = analogRead(voltmeter_pin); // Volage measurment
     //voltage -= offset;
-    float voltage = analogRead(GSR);
-    v_thermistor = analogRead(ThermistorPin);
-    float R2 = R1 * (1023.0 / (float)v_thermistor - 1.0);
-    logR2 = log(R2);
-    temp = (1.0 / (c1 + c2*logR2 + c3*logR2*logR2*logR2));
-    temp = temp - 273.15;
-    temp -= temp_offset;
-
+    long sumV=0;
+    long sumT=0
+  for(int i=0;i<10;i++)           //Average the 10 measurements to remove the glitch
+      {
+      float voltage = analogRead(GSR);
+      sumV += voltage;
+      v_thermistor = analogRead(ThermistorPin);
+      float R2 = R1 * (1023.0 / (float)v_thermistor - 1.0);
+      logR2 = log(R2);
+      temp = (1.0 / (c1 + c2*logR2 + c3*logR2*logR2*logR2));
+      temp = temp - 273.15;
+      temp -= temp_offset;
+      sumT += temp
+      }
+    gsr_average = sumV/10
+    temp_average = sumT/10
     Serial.print("V,");
-    Serial.println(voltage);
+    Serial.println(grs_average);
     Serial.print("T,");
-    Serial.println(temp);
+    Serial.println(temp_average);
     delay(period);
 }
