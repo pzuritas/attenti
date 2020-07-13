@@ -127,7 +127,7 @@ class DataReceiver():
         plt.plot(vtime, v, label='voltage')
         if len(times) != 0:
             for time in times:
-                plt.axvline(time, ymin=np.min(v), ymax=np.max(v), label='stim')
+                plt.axvline(time, ymin=np.min(v), ymax=np.max(v))
         plt.legend()
         plt.subplot(1, 2, 2)
         plt.xlabel('time [s]')
@@ -135,7 +135,7 @@ class DataReceiver():
         plt.plot(ttime, t, label='temperature')
         if len(times) != 0:
             for time in times:
-                plt.axvline(time, ymin=np.min(t), ymax=np.max(t), label='stim')
+                plt.axvline(time, ymin=np.min(t), ymax=np.max(t))
         plt.legend()
         plt.tight_layout()
         if show:
@@ -194,4 +194,4 @@ if __name__ == '__main__':
         recv.session_data[time[i]] = Datapoint(time[i], volt[i], volt[i])
     recv.add_capture(filter=True)
     recv.save_capture()
-    recv.plot_session('test', show=True)
+    recv.plot_session('test', show=True, times=[1,2,3])
