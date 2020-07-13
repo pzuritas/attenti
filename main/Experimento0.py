@@ -29,8 +29,8 @@ import random as rdm
 
 from psychopy.hardware import keyboard
 
-from data_recv_wired import DataReceiver
-from data_recv_wireless import WiFiDataReceiver
+#from data_recv_wired import DataReceiver
+#from data_recv_wireless import WiFiDataReceiver
 
 
 
@@ -354,25 +354,13 @@ for thisTrial in trials:
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
             # Example script
-            reciever = DataReceiver()
-            session_length = 1000
-            reciever.capture_start(session_length)
-            reciever.add_capture()
-            reciever.save_capture()
-            reciever.plot_session('test_plot', show=True)
-           
-            # Example script for WiFi
-            '''
-            receiver = WiFiDataReceiver()
-            session_length = 1000
-            reciever.capture_start(session_length)
-            reciever.add_capture()
-            reciever.save_capture()
-            reciever.plot_session('test_plot', show=True)
-            '''
-        while n<10000:
-            print(n)
-            n+=1
+            'reciever = DataReceiver()'
+            'session_length = 1000'
+            'reciever.capture_start(session_length)'
+            'reciever.add_capture()'
+            'reciever.save_capture()'
+            #'reciever.plot_session(''test_plot', 'show=True)''
+
     # -------Ending Routine "trial"-------
     for thisComponent in trialComponents:
         if hasattr(thisComponent, "setAutoDraw"):
@@ -397,25 +385,11 @@ for thisTrial in trials:
     thisExp.nextEntry()
     
 # completed 1 repeats of 'trials'
-voltage = list(map(lambda dp: dp.voltage, session_data.values()))
-temp = list(map(lambda dp: dp.temperature, session_data.values()))
-
-# Example script
-reciever = DataReceiver()
-session_length = 1000
-reciever.capture_start(session_length)
-reciever.add_capture()
-reciever.save_capture()
-reciever.plot_session('test_plot', show=True)
-# Example script for WiFi
-'''
-receiver = WiFiDataReceiver()
-session_length = 1000
-reciever.capture_start(session_length)
-reciever.add_capture()
-reciever.save_capture()
-reciever.plot_session('test_plot', show=True)
-'''
+#voltage = list(map(lambda dp: dp.voltage, session_data.values()))
+#temp = list(map(lambda dp: dp.temperature, session_data.values()))
+print('t1=',t1)
+print('t2=',t2)
+print('t3=',t3)
 
 # Flip one final time so any remaining win.callOnFlip() 
 # and win.timeOnFlip() tasks get executed before quitting
