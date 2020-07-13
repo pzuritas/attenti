@@ -10,13 +10,13 @@ reciever.add_capture()
 reciever.save_capture()
 
 time_0 = float(input('Enter first stimulus time:'))
-while time_0 not > 0:
+while not time_0 > 0:
     time_0 = float(input('Enter first stimulus time:'))
 time_1 = float(input('Enter second stimulus time:'))
-while time_1 not > 0:
+while not time_1 > 0:
     time_1 = float(input('Enter second stimulus time:'))
 time_2 = float(input('Enter third stimulus time:'))
-while time_2 not > 0:
+while not time_2 > 0:
     time_2 = float(input('Enter third stimulus time:'))
 
 times = [time_0, time_1, time_2]

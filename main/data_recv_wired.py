@@ -7,6 +7,7 @@ import scipy.signal as sp
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import platform
+import numpy as np
 mpl.style.use('ggplot')
 from collections import namedtuple
 from pc_parameters import PORT, BAUDRATE, TIMEOUT, PERIOD, MACPORT, FREQ
