@@ -1,6 +1,6 @@
 # Attenti
 Design in Biomedical Engineering project for cheap measurment of attention span.
 
-# TODO
-1. Test networking with local hosting.
-2. Develop UI for serial data collecting
+# ```main```
+
+The main files, including the data processor, data capture script, and ```.ino``` scripts for data collection in wired and wireless controllers are all located here.
