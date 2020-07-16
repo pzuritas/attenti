@@ -20,7 +20,7 @@ while not time_2 > 0:
     time_2 = float(input('Enter third stimulus time:'))
 
 times_list = [time_0, time_1, time_2]
-print(f'times registered as: {times}')
+print(f'times registered as: {times_list}')
 
 reciever.plot_session('test_plot', show=True, times=times_list)
 
